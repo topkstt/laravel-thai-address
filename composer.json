@@ -16,5 +16,12 @@
         "psr-4": { 
             "TopKSTT\\ThaiAddress\\": "src/"
         } 
-    } 
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TopKSTT\\ThaiAddress\\ThaiAddressServiceProvider"
+            ]
+        }
+    }
 }
