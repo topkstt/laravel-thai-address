@@ -1,6 +1,6 @@
 <?php
 
-namespace TopKST\ThaiAddress\Resources;
+namespace TopKSTT\ThaiAddress\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 

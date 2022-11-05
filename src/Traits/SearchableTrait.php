@@ -1,6 +1,6 @@
 <?php
 
-namespace TopKST\ThaiAddress\Traits;
+namespace TopKSTT\ThaiAddress\Traits;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Builder;

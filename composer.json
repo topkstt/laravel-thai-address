@@ -1,10 +1,10 @@
 {
-    "name": "topkstt/laravel-thailand",
-    "description": "The package may help Laravel developer store user address by easily way",
+    "name": "topkstt/laravel-thai-address",
+    "description": "Help Thailand developer for address database",
     "license": "MIT",
     "authors": [
         {
-            "name": "TopKST",
+            "name": "TopKSTT",
             "email": "topkstt@proton.me"
         }
     ],

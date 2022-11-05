@@ -1,6 +1,6 @@
 <?php
 
-namespace TopKST\ThaiAddress;
+namespace TopKSTT\ThaiAddress;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Application as LaravelApplication;
