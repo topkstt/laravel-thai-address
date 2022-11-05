@@ -27,7 +27,7 @@ Install Laravel Thai Address with Composer
 Publishing package config file
 
 ```bash
-  php artisan vendor:publish --provider="Baraear\ThaiAddress\ThaiAddressServiceProvider" --tag="config"
+  php artisan vendor:publish --provider="TopKSTT\ThaiAddress\ThaiAddressServiceProvider" --tag="config"
 ```
 
 Publishing package migration file & migrate database
