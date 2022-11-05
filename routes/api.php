@@ -4,7 +4,7 @@ if (!config('thai_address.api.enabled')) {
     return;
 }
 
-Route::prefix("/api/".config('thai_address.api.prefix_routes'))->middleware('api')->group(function () {
+Route::prefix('api'.config('thai_address.api.prefix_routes'))->middleware('api')->group(function () {
     Route::prefix('sub-district')->name('sub-district.')->group(function () {
         Route::get('all', 'TopKSTT\ThaiAddress\Controllers\ThaiAddressController@getAllSubDistricts')->name('all');
         Route::get('{id}', 'TopKSTT\ThaiAddress\Controllers\ThaiAddressController@getSubDistrict')->name('get');

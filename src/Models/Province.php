@@ -18,6 +18,9 @@ class Province extends Model implements ProvinceContract
     {
         parent::__construct();
         $this->setTable(config('thai_address.table_names.province'));
+        if (config('thai_address.uuid')) {
+            $this->setKeyType('string');
+        }
     }
 
     /**

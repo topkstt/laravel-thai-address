@@ -2,9 +2,9 @@
 
 namespace TopKSTT\ThaiAddress\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ThaiAddressResource extends Resource
+class ThaiAddressResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

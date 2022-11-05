@@ -2,6 +2,7 @@
 
 return [
     'uuid' => false,
+    'generate_uuid_pgsql_mode' => false,
 
     'models' => [
         'sub_district' => TopKSTT\ThaiAddress\Models\SubDistrict::class,
@@ -19,6 +20,6 @@ return [
 
     'api' => [
         'enabled' => false,
-        'prefix_routes' => 'general/thai-address',
+        'prefix_routes' => '/thai-address/',
     ],
 ];

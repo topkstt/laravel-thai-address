@@ -18,6 +18,9 @@ class PostalCode extends Model implements PostalCodeContract
     {
         parent::__construct();
         $this->setTable(config('thai_address.table_names.postal_code'));
+        if (config('thai_address.uuid')) {
+            $this->setKeyType('string');
+        }
     }
 
     /**

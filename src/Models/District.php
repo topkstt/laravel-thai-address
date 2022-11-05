@@ -19,6 +19,9 @@ class District extends Model implements DistrictContract
     {
         parent::__construct();
         $this->setTable(config('thai_address.table_names.district'));
+        if (config('thai_address.uuid')) {
+            $this->setKeyType('string');
+        }
     }
 
     /**

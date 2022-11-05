@@ -19,6 +19,9 @@ class SubDistrict extends Model implements SubDistrictContract
     {
         parent::__construct();
         $this->setTable(config('thai_address.table_names.sub_district'));
+        if (config('thai_address.uuid')) {
+            $this->setKeyType('string');
+        }
     }
 
     /**

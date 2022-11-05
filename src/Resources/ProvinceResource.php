@@ -2,9 +2,9 @@
 
 namespace TopKSTT\ThaiAddress\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProvinceResource extends Resource
+class ProvinceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,11 @@ class ProvinceResource extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'districts' => DistrictResource::collection($this->whenLoaded('districts')),
+            'postal_codes' => PostalCodeResource::collection($this->whenLoaded('postalCodes')),
+        ];
     }
 }

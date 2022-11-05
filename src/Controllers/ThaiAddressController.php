@@ -12,74 +12,198 @@ use TopKSTT\ThaiAddress\Resources\PostalCodeResource;
 use TopKSTT\ThaiAddress\Resources\SubDistrictResource;
 use TopKSTT\ThaiAddress\Resources\ThaiAddressResource;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 
 class ThaiAddressController extends Controller
 {
-    public function getAllSubDistricts()
+    public function getAllSubDistricts(Request $request)
     {
-        return SubDistrictResource::collection(SubDistrict::all());
+        $query = SubDistrict::query();
+
+        if ($request->with_district) {
+            $query->with('district');
+        }
+
+        if ($request->with_postal_code) {
+            $query->with('postalCode');
+        }
+
+        return SubDistrictResource::collection($query->get());
     }
 
-    public function getSubDistrict($id)
+    public function getSubDistrict(Request $request, $id)
     {
-        return SubDistrictResource::collection(SubDistrict::findOrFail($id));
+        $query = SubDistrict::query();
+
+        if ($request->with_district) {
+            $query->with('district');
+        }
+
+        if ($request->with_postal_code) {
+            $query->with('postalCode');
+        }
+
+        return new SubDistrictResource($query->findOrFail($id));
     }
 
-    public function searchSubDistrict($query)
+    public function searchSubDistrict(Request $request, $q)
     {
-        return SubDistrictResource::collection(SubDistrict::query()->search($query, 'name')->get());
+        $query = SubDistrict::query();
+
+        if ($request->with_district) {
+            $query->with('district');
+        }
+
+        if ($request->with_postal_code) {
+            $query->with('postalCode');
+        }
+
+        return SubDistrictResource::collection($query->search($q, 'name')->get());
     }
 
-    public function getAllDistricts()
+    public function getAllDistricts(Request $request)
     {
-        return DistrictResource::collection(District::all());
+        $query = District::query();
+
+        if ($request->with_province) {
+            $query->with('province');
+        }
+
+        if ($request->with_sub_district) {
+            $query->with('subDistricts');
+        }
+
+        return DistrictResource::collection($query->get());
     }
 
-    public function getDistrict($id)
+    public function getDistrict(Request $request, $id)
     {
-        return DistrictResource::collection(District::findOrFail($id));
+        $query = District::query();
+
+        if ($request->with_province) {
+            $query->with('province');
+        }
+
+        if ($request->with_sub_district) {
+            $query->with('subDistricts');
+        }
+
+        return new DistrictResource($query->findOrFail($id));
     }
 
-    public function searchDistrict($query)
+    public function searchDistrict(Request $request, $search)
     {
-        return DistrictResource::collection(District::query()->search($query, 'name')->get());
+        $query = District::query();
+
+        if ($request->with_province) {
+            $query->with('province');
+        }
+
+        if ($request->with_sub_district) {
+            $query->with('subDistricts');
+        }
+
+        return DistrictResource::collection($query->search($search, 'name')->get());
     }
 
-    public function getAllProvinces()
+    public function getAllProvinces(Request $request)
     {
-        return ProvinceResource::collection(Province::all());
+        $query = Province::query();
+
+        if ($request->with_all) {
+            $query->with('postalCodes.district');
+            $query->with('postalCodes.subDistrict');
+        }
+
+        return ProvinceResource::collection($query->get());
     }
 
-    public function getProvince($id)
+    public function getProvince(Request $request, $id)
     {
-        return ProvinceResource::collection(Province::findOrFail($id));
+        $query = Province::query();
+
+        if ($request->with_all) {
+            $query->with('postalCodes.district');
+            $query->with('postalCodes.subDistrict');
+        }
+
+        return new ProvinceResource($query->findOrFail($id));
     }
 
-    public function searchProvince($query)
+    public function searchProvince(Request $request, $q)
     {
-        return ProvinceResource::collection(Province::query()->search($query, 'name')->get());
+        $query = Province::query();
+
+        if ($request->with_all) {
+            $query->with('postalCodes.district');
+            $query->with('postalCodes.subDistrict');
+        }
+
+        return ProvinceResource::collection($query->search($q, 'name')->get());
     }
 
-    public function getAllPostalCodes()
+    public function getAllPostalCodes(Request $request)
     {
-        return PostalCodeResource::collection(PostalCode::all());
+        $query = PostalCode::query();
+
+        if ($request->with_sub_district) {
+            $query->with('subDistrict');
+        }
+
+        if ($request->with_district) {
+            $query->with('district');
+        }
+
+        if ($request->with_province) {
+            $query->with('province');
+        }
+
+        return PostalCodeResource::collection($query->get());
     }
 
-    public function getPostalCode($id)
+    public function getPostalCode(Request $request, $id)
     {
-        return PostalCodeResource::collection(PostalCode::findOrFail($id));
+        $query = PostalCode::query();
+
+        if ($request->with_sub_district) {
+            $query->with('subDistrict');
+        }
+
+        if ($request->with_district) {
+            $query->with('district');
+        }
+
+        if ($request->with_province) {
+            $query->with('province');
+        }
+
+        return new PostalCodeResource($query->findOrFail($id));
     }
 
-    public function searchPostalCode($query)
+    public function searchPostalCode(Request $request, $q)
     {
-        return PostalCodeResource::collection(PostalCode::query()->search($query, 'code')->get());
+        $query = PostalCode::query();
+
+        if ($request->with_sub_district) {
+            $query->with('subDistrict');
+        }
+
+        if ($request->with_district) {
+            $query->with('district');
+        }
+
+        if ($request->with_province) {
+            $query->with('province');
+        }
+
+        return PostalCodeResource::collection($query->search($q, 'code')->get());
     }
 
     public function search($query)
     {
         return ThaiAddressResource::collection(
             PostalCode::query()
-                ->whereHas('sub_district', function ($q) use ($query) {
+                ->whereHas('subDistrict', function ($q) use ($query) {
                     $q->search($query, 'name');
                 })
                 ->orWhereHas('district', function ($q) use ($query) {
