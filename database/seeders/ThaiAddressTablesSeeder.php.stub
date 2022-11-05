@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use TopKSTT\ThaiAddress\Models\District;
 use TopKSTT\ThaiAddress\Models\PostalCode;
 use TopKSTT\ThaiAddress\Models\Province;
