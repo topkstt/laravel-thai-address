@@ -22,14 +22,19 @@ class ThaiAddressServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/thai_address.php' => config_path('thai_address.php'),
             ], 'config');
+            if (! class_exists('CreateThaiAddressTables')) {
+                $timestamp = date('Y_m_d_His', time());
+                $this->publishes([
+                    __DIR__.'/../database/migrations/create_thai_address_tables.php.stub' => $this->app->databasePath()."/migrations/{$timestamp}_create_thai_address_tables.php",
+                ], 'migrations');
+            }
             if (! class_exists('ThaiAddressTablesSeeder')) {
                 $this->publishes([
-                    __DIR__.'/../database/seeds/ThaiAddressTablesSeeder.php.stub' => $this->app->databasePath().'/seeds/ThaiAddressTablesSeeder.php',
+                    __DIR__ . '/../database/seeders/ThaiAddressTablesSeeder.php.stub' => $this->app->databasePath().'/seeders/ThaiAddressTablesSeeder.php',
                 ], 'seeders');
             }
         }
 
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
         $this->registerModelBindings();
     }
