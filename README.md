@@ -8,7 +8,7 @@ Provide Thailand geographic database like provinces, districts, sub-districts an
 
 - Thailand provinces, district, sub district and postal codes database.
 - REST API Routes.
-- Support UUID.
+- Support UUID (Set in config file).
 
 ## Roadmap
 
