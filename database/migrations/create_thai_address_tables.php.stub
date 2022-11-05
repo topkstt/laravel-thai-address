@@ -1,0 +1,123 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateThaiAddressTables extends Migration
+{
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        $tableNames = config('thai_address.table_names');
+
+        Schema::create($tableNames['province'], function (Blueprint $table) {
+            if (config('thai_address.uuid') && config('thai_address.generate_uuid_pgsql_mode')) {
+                $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
+            } else if (config('thai_address.uuid')) {
+                $table->uuid('id')->primary();
+            } else {
+                $table->id;
+            }
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create($tableNames['district'], function (Blueprint $table) use ($tableNames) {
+            if (config('thai_address.uuid') && config('thai_address.generate_uuid_pgsql_mode')) {
+                $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
+            } else if (config('thai_address.uuid')) {
+                $table->uuid('id')->primary();
+            } else {
+                $table->id;
+            }
+            $table->string('name');
+            $table->integer('province_id')->unsigned();
+            $table->timestamps();
+
+
+            if (config('thai_address.uuid')) {
+                $table->foreignUuid('province_id')->references('id')->on($tableNames['province'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+            } else {
+                $table->foreign('province_id')->references('id')->on($tableNames['province'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+
+            }
+        });
+
+        Schema::create($tableNames['sub_district'], function (Blueprint $table) use ($tableNames) {
+            if (config('thai_address.uuid') && config('thai_address.generate_uuid_pgsql_mode')) {
+                $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
+            } else if (config('thai_address.uuid')) {
+                $table->uuid('id')->primary();
+            } else {
+                $table->id;
+            }
+            $table->string('name');
+            $table->integer('district_id')->unsigned();
+            $table->timestamps();
+
+
+            if (config('thai_address.uuid')) {
+                $table->foreignUuid('district_id')->references('id')->on($tableNames['district'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+            } else {
+                $table->foreign('district_id')->references('id')->on($tableNames['district'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+            }
+        });
+
+        Schema::create($tableNames['postal_code'], function (Blueprint $table) use ($tableNames) {
+            if (config('thai_address.uuid') && config('thai_address.generate_uuid_pgsql_mode')) {
+                $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
+            } else if (config('thai_address.uuid')) {
+                $table->uuid('id')->primary();
+            } else {
+                $table->id;
+            }
+            $table->integer('code');
+            $table->integer('sub_district_id')->unsigned();
+            $table->integer('district_id')->unsigned();
+            $table->integer('province_id')->unsigned();
+            $table->timestamps();
+
+            if (config('thai_address.uuid')) {
+                $table->foreignUuid('sub_district_id')->references('id')->on($tableNames['sub_district'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+                $table->foreignUuid('district_id')->references('id')->on($tableNames['district'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+                $table->foreignUuid('province_id')->references('id')->on($tableNames['province'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+            } else {
+                $table->foreign('sub_district_id')->references('id')->on($tableNames['sub_district'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+                $table->foreign('district_id')->references('id')->on($tableNames['district'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+                $table->foreign('province_id')->references('id')->on($tableNames['province'])
+                    ->onUpdate('cascade')->onDelete('cascade');
+            }
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $tableNames = config('thai_address.table_names');
+
+        Schema::dropIfExists($tableNames['province']);
+        Schema::dropIfExists($tableNames['district']);
+        Schema::dropIfExists($tableNames['sub_district']);
+        Schema::dropIfExists($tableNames['postal_code']);
+    }
+
+}
