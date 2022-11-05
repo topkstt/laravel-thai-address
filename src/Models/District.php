@@ -26,7 +26,7 @@ class District extends Model implements DistrictContract
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function sub_districts(): HasMany
+    public function subDistricts(): HasMany
     {
         return $this->HasMany(
             config('thai_address.models.sub_district')
