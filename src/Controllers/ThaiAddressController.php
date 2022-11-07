@@ -28,6 +28,10 @@ class ThaiAddressController extends Controller
             $query->with('postalCode');
         }
 
+        if ($request->district_id) {
+            $query->where('district_id', $request->district_id);
+        }
+
         return SubDistrictResource::collection($query->get());
     }
 
@@ -58,6 +62,10 @@ class ThaiAddressController extends Controller
             $query->with('postalCode');
         }
 
+        if ($request->district_id) {
+            $query->where('district_id', $request->district_id);
+        }
+
         return SubDistrictResource::collection($query->search($q, 'name')->get());
     }
 
@@ -71,6 +79,10 @@ class ThaiAddressController extends Controller
 
         if ($request->with_sub_district) {
             $query->with('subDistricts');
+        }
+
+        if ($request->province_id) {
+            $query->where('province_id', $request->province_id);
         }
 
         return DistrictResource::collection($query->get());
@@ -101,6 +113,10 @@ class ThaiAddressController extends Controller
 
         if ($request->with_sub_district) {
             $query->with('subDistricts');
+        }
+
+        if ($request->province_id) {
+            $query->where('province_id', $request->province_id);
         }
 
         return DistrictResource::collection($query->search($search, 'name')->get());
@@ -156,6 +172,10 @@ class ThaiAddressController extends Controller
 
         if ($request->with_province) {
             $query->with('province');
+        }
+
+        if ($request->sub_district_id) {
+            $query->where('sub_district_id', $request->sub_district_id);
         }
 
         return PostalCodeResource::collection($query->get());
